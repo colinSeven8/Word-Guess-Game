@@ -2,13 +2,42 @@
     box-sizing: border-box;
 }
 
-body {
-    background-image: url(../images/background.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+.container-body {
+    height: auto;
+    width: 100%;
+    background-image: linear-gradient(white,  grey 10%);
+}
+
+.banner-img {
+    text-align: center;
+    width: auto;
+    max-height: 200px;
+    background-color: #fff;
+}
+
+h1 {
+    text-align: center;
+}
+
+.card {
+    text-align: center;
+    margin-top: 30px;
+    line-height: 1.5em;
+    border: 20px, solid, rgba(0, 0, 0, 0.3);
+    color: #fff;
+}
+
+.card-left {
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+.card-right {
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.card-img-top {
+    width: 200px;
+    height: auto;
 }

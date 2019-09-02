@@ -2,72 +2,93 @@
 // Word Guess Game
 // game.js
 
-//Auxiliary Objects
-const Initial= {
-    "Text" : "Can you guess that trick?",
-    "Picture" : "assets/images/skater.png",
-    "Sound" : "assets/audio/imnotaloser.mp3"
-};
+//Auxiliary obect array
+let aux = [
+    {
+        "name": "initial",
+        "text": "Can you guess that trick?",
+        "image": "assets/images/skater.png",
+        "audio": "assets/audio/imnotaloser.mp3"
+    },
 
-const Victory = {
-    "Text" : "You got it!",
-    "Picture" : "assets/images/victory.jpg",
-    "Sound" : "assets/audio/karatekid.mp3"
-};
+    {
+        "name": "win",
+        "text": "You got it!",
+        "image": "assets/images/victory.jpg",
+        "audio": "assets/audio/karatekid.mp3"
+    },
 
-const GameOver = {
-    "Text" : "Game Over!",
-    "Picture" : "assets/images/crash.jpg",
-    "Sound" : "assets/audio/laugh.mp3"
-};
+    {
+        "name": "loss",
+        "text": "Game Over!",
+        "image": "assets/images/crash.jpg",
+        "audio": "assets/audio/laugh.mp3"
+    }
+];
 
-//Movie Clip Objects
-const Ollie = {
-    "trickName" : "ollie",
-    "trickText" : "Yup!",
-    "trickVideo" : "#",
-};
+//Skate trick object array
+let tricks = [
+    {
+        "trickName": "ollie",
+        "trickText": "Yup!",
+        "trickVideo": "#"
+    },
 
-const Shuvit = {
-    "trickName" : "shuvit",
-    "trickText" : "Will ya look at that!",
-    "trickVideo" : "#",
-};
+    {
+        "trickName": "shuvit",
+        "trickText": "Will ya look at that!",
+        "trickVideo": "#"
+    },
 
-const Kickflip = {
-    "trickName" : "kickflip",
-    "trickText" : "Stuff is happening!",
-    "trickVideo" : "#",
-};
+    {
+        "trickName": "kickflip",
+        "trickText": "Stuff is happening!",
+        "trickVideo": "#"
+    },
 
-const Heelflip = {
-    "trickName" : "heelflip",
-    "trickText" : "Well done, son!",
-    "trickVideo" : "#",
-};
+    {
+        "trickName": "heelflip",
+        "trickText": "Well done, son!",
+        "trickVideo": "#"
+    },
 
-const Nollie = {
-    "trickName" : "nollie",
-    "trickText" : "Yup again!",
-    "trickVideo" : "#",
-};
+    {
+        "trickName": "nollie",
+        "trickText": "Yup again!",
+        "trickVideo": "#"
+    },
 
-const Boneless = {
-    "trickName" : "boneless",
-    "trickText" : "You are certainly special!",
-    "trickVideo" : "#",
-};
+    {
+        "trickName": "boneless",
+        "trickText": "You are certainly special!",
+        "trickVideo": "#"
+    },
 
-const Threeflip = {
-    "trickName" : "threeflip",
-    "trickText" : "Whirly-whoopty-woo!",
-    "trickVideo" : "#",
-};
+    {
+        "trickName": "threeflip",
+        "trickText": "Whirly-whoopty-woo!",
+        "trickVideo": "#"
+    },
 
-const Impossible = {
-    "trickName" : "impossible",
-    "trickText" : "Lordy, the possiblities!",
-    "trickVideo" : "#",
-};
+    {
+        "trickName": "impossible",
+        "trickText": "Lordy, the possiblities!",
+        "trickVideo": "#"
+    }
+];
 
 //Ollie, Shuvit, Kickflip, Heelflip, Nollie, Boneless, Threeflip, Impossible
+
+let Tricks = [];
+
+function init() {
+
+    for (let i = 0; i < #; i++) {
+        Tricks[i].push();
+    }
+
+}
+
+function randomSelection() {
+
+}
