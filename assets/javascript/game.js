@@ -2,7 +2,7 @@
 // Word Guess Game
 // game.js
 
-//Auxiliary obect array
+//Auxiliary obect array - Initial, Win, Loss.
 let aux = [
     {
         "name": "initial",
@@ -26,7 +26,7 @@ let aux = [
     }
 ];
 
-//Skate trick object array
+//Skate trick object array - Ollie, Shuvit, Kickflip, Heelflip, Nollie, Boneless, Threeflip, Impossible.
 let tricks = [
     {
         "trickName": "ollie",
@@ -77,18 +77,78 @@ let tricks = [
     }
 ];
 
-//Ollie, Shuvit, Kickflip, Heelflip, Nollie, Boneless, Threeflip, Impossible
+//Set up globals.
+let tricksRandomOrder = randomOrder(tricks);
+let currentIndex = 0;
+let currentWordDashed = [];
+let gameOver = false;
+let wins = 0;
+let currentWord = [];
+let guessesRemaining = 0;
+let lettersGuessed = [];
+let gameAlreadyStarted = "false";
 
-let Tricks = [];
+//Run all game functionality.
+function main() {
 
-function init() {
+    //Keypress initiates game activity
+    document.onkeyup = function(event) {
 
-    for (let i = 0; i < #; i++) {
-        Tricks[i].push();
+        //Normalize the user input
+        let inputLetter = event.key.toLowerCase;
+
+        //See if this is the first keypress event
+        updateStartChanges(event);
+
+        //Compare input against the currentWord, if correct, update currentWordDashed, if guess is incorrect, update guessesRemaining and the lettersGuessed list.
+        processInput(event);
+
+
+        document.querySelector("#letters-guessed").innerHTML = inputLetter;
+
+        document.querySelector("#guesses-remaining").innerHTML = guessesRemaining--;
     }
 
 }
 
-function randomSelection() {
+function processInput() {
+    
+}
 
+function updateStartChanges() {
+
+    if (gameAlreadyStarted === "false") {
+
+        document.querySelector("#startMsg").innerHTML = "Good Luck!";
+
+        gameAlreadyStarted = "true";
+    }
+}
+//Initializing an array of randomly ordered "word" objects.
+function init(arr) {
+
+   for (let i = 0; i < arr[currentIndex].trickName.length; i++) {
+    currentWordDashed[i].
+   }
+}
+
+//Takes an array of objects and returns a randomly ordered object array.
+function randomOrder(arr) {
+
+    let currentIndex = arr.length;
+    let tempObj = [];
+    let rand = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+
+        rand = Math.floor(Math.random() * currentIndex);
+
+        tempObj.push(arr[currentIndex]);
+
+        arr[currentIndex].push(arr[rand]);
+
+        arr[rand].push(tempObj);
+    }
+  
+    return arr;
 }
