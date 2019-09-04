@@ -92,17 +92,19 @@ let gameAlreadyStarted = "false";
 function main() {
 
     //Keypress initiates game activity
-    document.onkeyup = function(event) {
-
-        //Normalize the user input
-        let inputLetter = event.key.toLowerCase;
+    document.onkeyup = function (event) {
 
         //See if this is the first keypress event
-        updateStartChanges(event);
+        if (gameAlreadyStarted === "false") {
 
-        //Compare input against the currentWord, if correct, update currentWordDashed, if guess is incorrect, update guessesRemaining and the lettersGuessed list.
-        processInput(event);
+            //Initialize game data
+            init(tricksRandomOrder);
+        }
+        //This user input is not the first input
+        else {
 
+            processInput(event);
+        }
 
         document.querySelector("#letters-guessed").innerHTML = inputLetter;
 
@@ -111,32 +113,80 @@ function main() {
 
 }
 
-function processInput() {
-    
-}
+//Compare input against the currentWord, if correct, update currentWordDashed, if guess is incorrect, update guessesRemaining and the lettersGuessed list.
+function processInput(event) {
 
-function updateStartChanges() {
+    let KeyInput = event.key.toLowerCase;
 
-    if (gameAlreadyStarted === "false") {
+    if (!compareInputWithCurrentWord(KeyInput)) {
 
-        document.querySelector("#startMsg").innerHTML = "Good Luck!";
+        guessesRemaining++;
 
-        gameAlreadyStarted = "true";
+        lettersGuessed.push(KeyInput + ", ");////////////////////////
     }
+
 }
-//Initializing an array of randomly ordered "word" objects.
+
+//See if the current input matches any characters in the current word
+function compareInputWithCurrentWord(letter) {
+
+    for (var i = 0; i < currentWord.length; i++) {
+
+        if (currentWord.charAt(i) === letter) {
+
+            currentWordDashed[i] = letter;
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//Normalizes user input, updates the start message and sets the game flag
+function updateStartChanges(event) {
+
+    let inputLetter = event.key.toLowerCase;
+
+    document.querySelector("#startMsg").innerHTML = "Good Luck!";
+
+    gameAlreadyStarted = "true";
+}
+
+//Initializing all game data
 function init(arr) {
 
-   for (let i = 0; i < arr[currentIndex].trickName.length; i++) {
-    currentWordDashed[i].
-   }
+    updateStartChanges(event);
+
+    initCurrentAndDashedWord(arr);
+}
+
+//Initializes the current word and the dashed form of it
+function initCurrentAndDashedWord(arr) {
+
+    for (let i = 0; i < arr[currentIndex].trickName.length; i++) {
+
+        currentWord.push(arr[currentIndex].trickName[i]);
+
+        if (i !== arr[currentIndex].trickName.length - 1) {
+
+            currentWordDashed[i].name.push("_ ");
+        }
+        else {
+
+            currentWordDashed[i].name.push("_");
+        }
+    }
+
 }
 
 //Takes an array of objects and returns a randomly ordered object array.
 function randomOrder(arr) {
 
     let currentIndex = arr.length;
+
     let tempObj = [];
+
     let rand = 0;
 
     for (let i = 0; i < arr.length; i++) {
@@ -149,6 +199,6 @@ function randomOrder(arr) {
 
         arr[rand].push(tempObj);
     }
-  
+
     return arr;
 }
