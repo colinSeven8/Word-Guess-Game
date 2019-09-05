@@ -27,7 +27,7 @@ let aux = [
 ];
 
 //Skate trick object array - Ollie, Shuvit, Kickflip, Heelflip, Nollie, Boneless, Threeflip, Impossible.
-let tricks = [
+let words = [
     {
         "trickName": "ollie",
         "trickText": "Yup!",
@@ -78,77 +78,126 @@ let tricks = [
 ];
 
 //Set up globals.
-let tricksRandomOrder = randomOrder(tricks);
+let wordsRandomOrder = randomOrder(words);
 let currentIndex = 0;
-let currentWordDashed = [];
+let currentHiddenWordArray = [];
+let currentHiddenWord = "";
 let gameOver = false;
 let wins = 0;
-let currentWord = [];
-let guessesRemaining = 0;
-let lettersGuessed = [];
+let currentWord = "";
+let guessesRemaining = 12;
+let lettersGuessed = "";
 let gameAlreadyStarted = "false";
+
+main();
 
 //Run all game functionality.
 function main() {
 
     //Keypress initiates game activity
-    document.onkeyup = function (event) {
+    document.onkeydown = function (event) {
 
         //See if this is the first keypress event
         if (gameAlreadyStarted === "false") {
 
             //Initialize game data
-            init(tricksRandomOrder);
+            init(wordsRandomOrder);
         }
         //This user input is not the first input
         else {
 
             processInput(event);
+
+            if (gameOver == true) {
+
+                wins = 0;
+
+                resetGame();
+            }
         }
-
-        document.querySelector("#letters-guessed").innerHTML = inputLetter;
-
-        document.querySelector("#guesses-remaining").innerHTML = guessesRemaining--;
     }
-
 }
 
-//Compare input against the currentWord, if correct, update currentWordDashed, if guess is incorrect, update guessesRemaining and the lettersGuessed list.
+//
+function resetGame() {
+    
+    gameAlreadyStarted = "false";
+
+    document.querySelector("#letters-guessed").innerHTML = lettersGuessed;
+
+    document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
+
+    document.querySelector("#wins").innerHTML = 0;
+
+    document.querySelector("#hidden-word").innerHTML = "";
+
+    guessesRemaining = 0;
+
+    document.querySelector("#letters-guessed").innerHTML = "None yet!"
+
+    console.log(wins + gameAlreadyStarted);
+}
+
+//Compare input against the currentWord, if correct, update currentWordDashed, if guess is incorrect, update guessesRemaining and the lettersGuessed list. If there are no more guesses left, end game.
 function processInput(event) {
 
-    let KeyInput = event.key.toLowerCase;
+    let KeyInput = event.key;
 
     if (!compareInputWithCurrentWord(KeyInput)) {
 
-        guessesRemaining++;
+        guessesRemaining--;
 
-        lettersGuessed.push(KeyInput + ", ");////////////////////////
+        if (guessesRemaining === 11) {
+
+            lettersGuessed = KeyInput;
+        }
+        else if (guessesRemaining > 0) {
+
+            lettersGuessed = lettersGuessed + ", " + KeyInput;
+        }
+        else {
+
+            gameOver = true;
+        }
     }
 
+    document.querySelector("#letters-guessed").innerHTML = lettersGuessed;
+
+    document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
 }
 
 //See if the current input matches any characters in the current word
 function compareInputWithCurrentWord(letter) {
 
+    let atLeastOneLetterChanged = false;
+
     for (var i = 0; i < currentWord.length; i++) {
 
         if (currentWord.charAt(i) === letter) {
 
-            currentWordDashed[i] = letter;
+            currentHiddenWordArray[i] = letter;
+            console.log("currentHiddenWordArray " + currentHiddenWordArray);
 
-            return true;
+            atLeastOneLetterChanged = true;
         }
+    }
+
+    currentHiddenWord = currentHiddenWordArray;
+
+    if (atLeastOneLetterChanged) {
+
+        document.querySelector("#hidden-word").innerHTML = currentHiddenWord;
+
+        return true;
     }
 
     return false;
 }
 
 //Normalizes user input, updates the start message and sets the game flag
-function updateStartChanges(event) {
+function updateStartChanges() {
 
-    let inputLetter = event.key.toLowerCase;
-
-    document.querySelector("#startMsg").innerHTML = "Good Luck!";
+    document.querySelector("#start-msg").innerHTML = "Good Luck!";
 
     gameAlreadyStarted = "true";
 }
@@ -156,7 +205,7 @@ function updateStartChanges(event) {
 //Initializing all game data
 function init(arr) {
 
-    updateStartChanges(event);
+    updateStartChanges();
 
     initCurrentAndDashedWord(arr);
 }
@@ -166,18 +215,20 @@ function initCurrentAndDashedWord(arr) {
 
     for (let i = 0; i < arr[currentIndex].trickName.length; i++) {
 
-        currentWord.push(arr[currentIndex].trickName[i]);
-
-        if (i !== arr[currentIndex].trickName.length - 1) {
-
-            currentWordDashed[i].name.push("_ ");
-        }
-        else {
-
-            currentWordDashed[i].name.push("_");
-        }
+        currentHiddenWordArray.push("_");
     }
 
+    currentWord = arr[currentIndex].trickName;
+
+    currentHiddenWord = currentHiddenWordArray.join(" ");
+
+    document.querySelector("#wins").innerHTML = 0;
+
+    document.querySelector("#hidden-word").innerHTML = currentHiddenWord;
+
+    document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
+
+    document.querySelector("#letters-guessed").innerHTML = "None yet!"
 }
 
 //Takes an array of objects and returns a randomly ordered object array.
@@ -193,11 +244,13 @@ function randomOrder(arr) {
 
         rand = Math.floor(Math.random() * currentIndex);
 
-        tempObj.push(arr[currentIndex]);
+        currentIndex--;
 
-        arr[currentIndex].push(arr[rand]);
+        tempObj = arr[currentIndex];
 
-        arr[rand].push(tempObj);
+        arr[currentIndex] = arr[rand];
+
+        arr[rand] = tempObj;
     }
 
     return arr;

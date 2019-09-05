@@ -10,7 +10,7 @@ index.html -->
   <meta charset="utf-8">
 
   <!--Reset CSS-->
-  <link rel="stylesheet" href="../Word-Guess-Game/assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/reset.css">
 
   <!--Media Query-->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -46,45 +46,21 @@ index.html -->
     <div class="col-xs-6 col-md-6">
       <div class="card card-right" style="width: 18rem;">
         <div class="card-body">
-          <p id="start-msg" class="card-text">Press any key to get started!</p>
+          <h3 id="start-msg" class="card-text">Press any key to get started!</h3>
           <p class="card-text">Wins</p>
-          <p id="num-of-wins" class="card-text">2</p>
-          <h3 id="hidden-word" class="card-text">_ _ _ _ _ _</h3>
+          <h3 id="wins" class="card-text"></h3>
+          <h3 id="hidden-word" class="card-text"></h3>
           <p class="card-text">Number of Guesses Remaining</p>
-          <p id="guesses-remaining" class="card-text">12</p>
+          <h3 id="guesses-remaining" class="card-text"></h3>
           <p class="card-text">Letters Already Guessed</p>
-          <h3 id="letters-guessed" class="card-text">a, b, c</h3>
+          <h3 id="letters-guessed" class="card-text"></h3>
         </div>
       </div>
     </div>
   </div>
 
+  <script type="text/javascript" src="assets/javascript/game.js"></script>
+
 </body>
 
 </html>
-
-<!-- <div class="col-lg-12">
-    <div class="container">
-      <div id="row">
-        <h1>_ _ _ _ _ _ _ _</h1>
-      </div>
-      <div id="row">
-        <h1>Guesses Remaining:</h1>
-        <h1>8</h1>
-      </div>
-      <div id="row">
-        <h1>Letters Guessed: </h1>
-        <h1>A, B, C</h1>
-      </div>
-    </div>
-    <div class="container">
-        <div id="row">
-          <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-              <p class="card-text">Kickflip</p>
-            </div>
-          </div>
-        </div>
-    </div>
-  </div> -->
