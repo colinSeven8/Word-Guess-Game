@@ -87,7 +87,7 @@ let wins = 0;
 let currentWord = "";
 let guessesRemaining = 12;
 let lettersGuessed = "";
-let gameAlreadyStarted = "false";
+let gameAlreadyStarted = false;
 
 main();
 
@@ -95,102 +95,99 @@ main();
 function main() {
 
     //Keypress initiates game activity
-    document.onkeydown = function (event) {
+    document.onkeyup = function (event) {
 
         //See if this is the first keypress event
-        if (gameAlreadyStarted === "false") {
-
+        if (gameAlreadyStarted === false) {
             //Initialize game data
             init(wordsRandomOrder);
         }
+
         //This user input is not the first input
         else {
-
             processInput(event);
 
-            if (gameOver == true) {
-
-                wins = 0;
-
+            if (gameOver === true) {
                 resetGame();
             }
         }
     }
 }
 
-//
+//Compares the new user input against past entries to find duplicates
+function isDuplicate(letter) {
+
+    for (let i = 0; i < lettersGuessed.length; i++) {
+
+        if (letter === lettersGuessed.charAt(i)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+//Resets all values for another game to start
 function resetGame() {
-    
-    gameAlreadyStarted = "false";
 
-    document.querySelector("#letters-guessed").innerHTML = lettersGuessed;
-
-    document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
-
-    document.querySelector("#wins").innerHTML = 0;
-
-    document.querySelector("#hidden-word").innerHTML = "";
-
+    wins = 0;
     guessesRemaining = 0;
-
+    gameAlreadyStarted = false;
+    lettersGuessed = "";
+    currentHiddenWord = "";
+    currentHiddenWordArray = [];
+    document.querySelector("#letters-guessed").innerHTML = lettersGuessed;
+    document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
+    document.querySelector("#wins").innerHTML = 0;
+    document.querySelector("#hidden-word").innerHTML = "";
     document.querySelector("#letters-guessed").innerHTML = "None yet!"
-
-    console.log(wins + gameAlreadyStarted);
 }
 
 //Compare input against the currentWord, if correct, update currentWordDashed, if guess is incorrect, update guessesRemaining and the lettersGuessed list. If there are no more guesses left, end game.
 function processInput(event) {
 
-    let KeyInput = event.key;
+    let input = event.key;
+    let keyInput = input.toLowerCase();
 
-    if (!compareInputWithCurrentWord(KeyInput)) {
+    if (!isDuplicate(keyInput) && !isTheCorrectLetter(keyInput)) {
 
         guessesRemaining--;
 
         if (guessesRemaining === 11) {
-
-            lettersGuessed = KeyInput;
+            lettersGuessed = keyInput;
         }
         else if (guessesRemaining > 0) {
-
-            lettersGuessed = lettersGuessed + ", " + KeyInput;
+            lettersGuessed = lettersGuessed + ", " + keyInput;
         }
         else {
-
             gameOver = true;
         }
     }
-
     document.querySelector("#letters-guessed").innerHTML = lettersGuessed;
-
     document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
 }
 
 //See if the current input matches any characters in the current word
-function compareInputWithCurrentWord(letter) {
+function isTheCorrectLetter(letter) {
 
     let atLeastOneLetterChanged = false;
 
     for (var i = 0; i < currentWord.length; i++) {
 
         if (currentWord.charAt(i) === letter) {
-
             currentHiddenWordArray[i] = letter;
-            console.log("currentHiddenWordArray " + currentHiddenWordArray);
-
             atLeastOneLetterChanged = true;
         }
     }
+    currentHiddenWord = currentHiddenWordArray.toString();
+    console.log("currentHiddenWord  " + currentHiddenWord.replace(/,/g, ' '));
+    console.log("currentHiddenWordArray  " + currentHiddenWordArray);
 
-    currentHiddenWord = currentHiddenWordArray;
 
     if (atLeastOneLetterChanged) {
 
-        document.querySelector("#hidden-word").innerHTML = currentHiddenWord;
-
+        document.querySelector("#hidden-word").innerHTML = currentHiddenWord.replace(/,/g, ' ');
         return true;
     }
-
     return false;
 }
 
@@ -198,15 +195,13 @@ function compareInputWithCurrentWord(letter) {
 function updateStartChanges() {
 
     document.querySelector("#start-msg").innerHTML = "Good Luck!";
-
-    gameAlreadyStarted = "true";
+    gameAlreadyStarted = true;
 }
 
 //Initializing all game data
 function init(arr) {
 
     updateStartChanges();
-
     initCurrentAndDashedWord(arr);
 }
 
@@ -214,20 +209,14 @@ function init(arr) {
 function initCurrentAndDashedWord(arr) {
 
     for (let i = 0; i < arr[currentIndex].trickName.length; i++) {
-
         currentHiddenWordArray.push("_");
     }
 
     currentWord = arr[currentIndex].trickName;
-
     currentHiddenWord = currentHiddenWordArray.join(" ");
-
     document.querySelector("#wins").innerHTML = 0;
-
     document.querySelector("#hidden-word").innerHTML = currentHiddenWord;
-
     document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
-
     document.querySelector("#letters-guessed").innerHTML = "None yet!"
 }
 
@@ -235,23 +224,479 @@ function initCurrentAndDashedWord(arr) {
 function randomOrder(arr) {
 
     let currentIndex = arr.length;
-
     let tempObj = [];
-
     let rand = 0;
 
     for (let i = 0; i < arr.length; i++) {
-
         rand = Math.floor(Math.random() * currentIndex);
-
         currentIndex--;
-
         tempObj = arr[currentIndex];
-
         arr[currentIndex] = arr[rand];
-
         arr[rand] = tempObj;
     }
-
     return arr;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
