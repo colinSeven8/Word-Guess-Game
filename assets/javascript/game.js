@@ -108,6 +108,7 @@ function main() {
             processInput(event);
 
             if (gameOver === true) {
+                //Determines if it was a win or a loss
                 resetGame();
             }
         }
@@ -126,11 +127,12 @@ function isDuplicate(letter) {
     return false;
 }
 
-//Resets all values for another game to start
+//Resets all values for another game to start after determining whether or not it was a win.
 function resetGame() {
 
-    wins = 0;
-    guessesRemaining = 0;
+    updateWinCount();
+    wordsRandomOrder = randomOrder(words);
+    guessesRemaining = 12;
     gameAlreadyStarted = false;
     lettersGuessed = "";
     currentHiddenWord = "";
@@ -140,6 +142,29 @@ function resetGame() {
     document.querySelector("#wins").innerHTML = 0;
     document.querySelector("#hidden-word").innerHTML = "";
     document.querySelector("#letters-guessed").innerHTML = "None yet!"
+    gameOver = false;
+}
+
+//adjusts the win count according to win status
+function updateWinCount() {
+
+    console.log("updateWinCount " + guessesRemaining);
+    //Some guesses remaining, so it was a win!
+    if (guessesRemaining > 0) {
+
+        wins += 1;
+        console.log("wins " + wins);
+        document.querySelector("#wins").innerHTML = wins;
+        document.getElementById("headline").innerHTML = aux[1].text;
+        document.querySelector("#start-msg").innerHTML = "Good job!";
+    }
+    //...it was a loss
+    else {
+        
+        wins = 0;
+        document.getElementById("headline").innerHTML = aux[2].text;
+        document.querySelector("#start-msg").innerHTML = "Try again!";
+    }
 }
 
 //Compare input against the currentWord, if correct, update currentWordDashed, if guess is incorrect, update guessesRemaining and the lettersGuessed list. If there are no more guesses left, end game.
@@ -153,12 +178,15 @@ function processInput(event) {
         guessesRemaining--;
 
         if (guessesRemaining === 11) {
+            console.log("processInput 11 " + guessesRemaining);
             lettersGuessed = keyInput;
         }
         else if (guessesRemaining > 0) {
+            console.log("processInput >0 " + guessesRemaining);
             lettersGuessed = lettersGuessed + ", " + keyInput;
         }
         else {
+            console.log("processInput == 0 " + guessesRemaining);
             gameOver = true;
         }
     }
@@ -178,14 +206,15 @@ function isTheCorrectLetter(letter) {
             atLeastOneLetterChanged = true;
         }
     }
+    //Pass the hidden word as it is at this point and check if the word was solved
     currentHiddenWord = currentHiddenWordArray.toString();
-    console.log("currentHiddenWord  " + currentHiddenWord.replace(/,/g, ' '));
-    console.log("currentHiddenWordArray  " + currentHiddenWordArray);
 
-
+    //If at least one of the letters guessed was correct, display the current hidden word to the user and return true
     if (atLeastOneLetterChanged) {
 
         document.querySelector("#hidden-word").innerHTML = currentHiddenWord.replace(/,/g, ' ');
+        if (currentHiddenWord.replace(/,/g, '') === currentWord) { gameOver = true; }
+
         return true;
     }
     return false;
@@ -194,6 +223,7 @@ function isTheCorrectLetter(letter) {
 //Normalizes user input, updates the start message and sets the game flag
 function updateStartChanges() {
 
+    document.getElementById("headline").innerHTML = aux[0].text;
     document.querySelector("#start-msg").innerHTML = "Good Luck!";
     gameAlreadyStarted = true;
 }
@@ -214,7 +244,7 @@ function initCurrentAndDashedWord(arr) {
 
     currentWord = arr[currentIndex].trickName;
     currentHiddenWord = currentHiddenWordArray.join(" ");
-    document.querySelector("#wins").innerHTML = 0;
+    document.querySelector("#wins").innerHTML = wins;
     document.querySelector("#hidden-word").innerHTML = currentHiddenWord;
     document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
     document.querySelector("#letters-guessed").innerHTML = "None yet!"
