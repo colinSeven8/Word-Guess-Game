@@ -3,15 +3,17 @@
 }
 
 .container-body {
-    height: auto;
+    height: 100vh;
     width: 100%;
-    background-image: linear-gradient(white,  grey 10%);
+    background-image: linear-gradient(white,  grey 5%);
+    padding-top: 20px;
 }
 
 .banner-img {
     text-align: center;
     width: auto;
     max-height: 200px;
+    background-color: white;
 }
 
 h1 {
@@ -26,17 +28,19 @@ h1 {
     color: #fff;
 }
 
-.card-left {
-    margin-left: 20px;
-    margin-right: 10px;
-}
-
-.card-right {
-    margin-left: 10px;
-    margin-right: 20px;
-}
-
-.card-img-top {
-    width: 200px;
+.card-img {
+    width: 100%;
     height: auto;
+    padding: 0 5px;
+}
+
+#hidden-trick {
+    padding-top: 10%;
+    font-size: 54px;
+    color: white;
+}
+
+#game-info {
+    color: white;
+    text-align: center;
 }
