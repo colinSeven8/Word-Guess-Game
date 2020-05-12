@@ -110,8 +110,7 @@ function init(arr) {
 function updateStartChanges() {
   document.getElementById("headline").innerHTML = aux[0].text;
   document.getElementById("start-msg").innerHTML = aux[0].msg;
-  console.log("aux[0].audio ", aux[0].audio);
-  aux[0].audio.play();
+  document.getElementById("myAudio").play();
   console.log("updateStartChanges()");
   gameAlreadyStarted = true;
 }
@@ -178,7 +177,7 @@ function updateWinCount() {
   else {
     wins = 0;
     document.getElementById("headline").innerHTML = aux[2].text;
-    document.getElementById("start-msg").innerHTML = "Try again!";
+    document.getElementById("start-msg").innerHTML = "Press any key to try again!";
     document.getElementById("game-graphic").src = "assets/images/crash.jpg";
   }
 }
